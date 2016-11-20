@@ -9,31 +9,49 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public class Main {
-
-	private static String VERSION ="0.1";
+	
+	private final String VERSION = "0.2";
 	
 	public static void main(String[] args) {
-
-		System.out.println("Tracker Data Tool v." + VERSION + "\n\n");
+		new Main().execute(args);
+	}
+	
+	
+	private void execute(String[] args) {	
+		Logger.out("Tracker Data Tool v." + VERSION + "\n\n");
 		
-        // this program requires two 
+        // this program requires at least two 
         // arguments on the command line 
-        if (args.length == 2) {
+        if (args.length >= 2) {
         	if (args[0].compareToIgnoreCase(args[1]) != 0) {
-        		openFile(args[0], args[1]);
+        		//openFile(args[0], args[1]);
+        		start(args[0], args[1], ParserSettings.create(args));
         	}
         	else {
-        		System.out.println("Error: input and output file cannot be the same");
+        		Logger.out("Error: input and output file cannot be the same");
         	}
         }
         else {
-        	System.out.println("Arguments missing.\n\n"
-        			+ "Usage: tracker_data.jar <input_file> <output_file>\n\n"
-        			+ "Example: java -jar tracker_data.jar input.dat output.dat");
-        }
+        	Logger.out("Arguments missing.\n\n"
+        			+ "Usage: tracker_data.jar <input_file> <output_file> [optional: -c -r]\n\n"
+        			+ "Example: java -jar tracker_data.jar input.dat output.dat\n\n"
+        			+ "Options: -c [0/1]: Enables/disables conversion of delimeters. Default: 1 (enabled)\n"
+        			+ "         -r [value]: Replaces values of second column with specified value. Default: 0");
+        }		
 	}
-
-	private static void openFile(String inputFile, String outputFile) {
+		
+	private void start(String inFile, String outFile, ParserSettings settings) {
+		DataFile dataFile = new DataFile();
+		
+		dataFile.load(inFile);
+		
+		if (dataFile.isValid()) {
+			dataFile.processData(settings);
+			dataFile.write(outFile);
+		}
+	}
+	
+	private void openFile(String inputFile, String outputFile) {
 		Path dataFilePathIn = Paths.get(System.getProperty("user.dir"), inputFile);
 		Path dataFilePathOut = Paths.get(outputFile);
 
