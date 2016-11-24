@@ -78,7 +78,7 @@ public class DataFile {
 
 	}
 	
-	public void processData(ParserSettings settings) {
+	public void processData() {	
 		for (int i = 0; i < _dataArray.size(); i++) {
 			
 			// ignore first two lines
@@ -88,8 +88,8 @@ public class DataFile {
 				if (3 == line.length) {
 					Logger.out(String.format("%s\t%s\t%s", line[0], line[1], line[2]));
 					
-					line[1] = settings.ReplaceValue;
-					if (settings.ConvertDelimiter) {
+					line[1] = Configuration.instance().replaceValue();
+					if (Configuration.instance().convertDelimiter()) {
 						line[0] = line[0].replace(',', '.');
 						line[2] = line[2].replace(',', '.');
 					}

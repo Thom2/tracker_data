@@ -1,13 +1,5 @@
 package tracker_data;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.nio.charset.Charset;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-
 public class Main {
 	
 	private final String VERSION = "0.2";
@@ -25,7 +17,15 @@ public class Main {
         if (args.length >= 2) {
         	if (args[0].compareToIgnoreCase(args[1]) != 0) {
         		//openFile(args[0], args[1]);
-        		start(args[0], args[1], ParserSettings.create(args));
+        		
+        		// Parse command line for optional values
+        		try {
+        			Configuration.instance().initialize(args);
+        	    		
+        			start(args[0], args[1]);
+        		} catch (IllegalArgumentException e) {
+        			Logger.error(String.format("Error in arguments list. IllegalArgumentException: %s%n", e));
+        		}
         	}
         	else {
         		Logger.out("Error: input and output file cannot be the same");
@@ -33,24 +33,26 @@ public class Main {
         }
         else {
         	Logger.out("Arguments missing.\n\n"
-        			+ "Usage: tracker_data.jar <input_file> <output_file> [optional: -c -r]\n\n"
+        			+ "Usage: tracker_data.jar <input_file> <output_file> [options]\n\n"
         			+ "Example: java -jar tracker_data.jar input.dat output.dat\n\n"
-        			+ "Options: -c [0/1]: Enables/disables conversion of delimeters. Default: 1 (enabled)\n"
-        			+ "         -r [value]: Replaces values of second column with specified value. Default: 0");
+        			+ "Options: --c: disables conversion of delimeters. Default: 1 (enabled)\n"
+        			+ "         -r [value]: Replaces values of second column with specified value. Default: 0\n"
+        			+ "         --l: enables logging");
         }		
 	}
 		
-	private void start(String inFile, String outFile, ParserSettings settings) {
+	private void start(String inFile, String outFile) {
 		DataFile dataFile = new DataFile();
 		
 		dataFile.load(inFile);
 		
 		if (dataFile.isValid()) {
-			dataFile.processData(settings);
+			dataFile.processData();
 			dataFile.write(outFile);
 		}
 	}
 	
+/*
 	private void openFile(String inputFile, String outputFile) {
 		Path dataFilePathIn = Paths.get(System.getProperty("user.dir"), inputFile);
 		Path dataFilePathOut = Paths.get(outputFile);
@@ -104,5 +106,5 @@ public class Main {
 		}
 		
 	}
-
+*/
 }

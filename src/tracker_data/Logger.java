@@ -23,7 +23,7 @@ public class Logger {
 	
 	// Writes log output into file
 	public static void log(String text) {
-		if (GeneralSettings.IsLoggingEnabled) {
+		if (Configuration.instance().isLoggingEnabled()) {
 			if (null == _logWriter && !_LogFileCreationFailed) {
 				createLogFile();
 			}
@@ -60,7 +60,7 @@ public class Logger {
 	}
 	
 	private static void createLogFile() {
-		Path logFilePath = Paths.get(System.getProperty("user.dir"), GeneralSettings.LOG_FILE_NAME);
+		Path logFilePath = Paths.get(System.getProperty("user.dir"), Configuration.LOG_FILE_NAME);
 		Charset charset = Charset.forName("US-ASCII");
 		
 		 try {
