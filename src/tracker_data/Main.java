@@ -35,10 +35,10 @@ public class Main {
         	Logger.out("Arguments missing.\n\n"
         			+ "Usage: tracker_data.jar <input_file> <output_file> [options]\n\n"
         			+ "Example: java -jar tracker_data.jar input.dat output.dat\n\n"
-        			+ "Options: --c: disables conversion of delimeters. Default: 1 (enabled)\n"
+        			+ "Options: --c: disables conversion of delimeters. Default: enabled\n"
         			+ "         -r [value]: Replaces values of second column with specified value. Default: 0\n"
         			+ "         --l: enables logging");
-        }		
+        }
 	}
 		
 	private void start(String inFile, String outFile) {

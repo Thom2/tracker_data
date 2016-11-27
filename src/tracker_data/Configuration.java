@@ -10,12 +10,13 @@ public class Configuration {
 	
 	private Configuration() {}
 	
+	// Returns single instance of class Configuration
 	public static Configuration instance() {
 		return _instance;
 	}
 
 
-	// Configuration parameters
+	// Default configuration parameters
 	private boolean _isLoggingEnabled = false;
 	private String _replaceValue = "0";
 	private boolean _convertDelimiter = true;
@@ -23,15 +24,17 @@ public class Configuration {
 	// Constants
 	public static final String LOG_FILE_NAME = "tracker_data.log";
 	
-	
+	// Returns true if logging is enabled, otherwise false.
 	public boolean isLoggingEnabled() {
 		return _isLoggingEnabled;
 	}
 
+	// Returns value the second column in the file is replaced with.
 	public String replaceValue() {
 		return _replaceValue;
 	}
 
+	// Returns true of the floating point delimiter is replaced, otherwise false.
 	public boolean convertDelimiter() {
 		return _convertDelimiter;
 	}
@@ -54,6 +57,7 @@ public class Configuration {
 		}
 	}
 	
+	// Parse command line argument parameters
 	private Map<String, String> parseArgs(String[] args) {
 		Map<String, String> params = new HashMap<>();
 

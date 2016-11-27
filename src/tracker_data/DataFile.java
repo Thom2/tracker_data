@@ -9,11 +9,14 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 
+
 public class DataFile {
 	private ArrayList<String[]> _dataArray = new ArrayList<String[]>();
 	private boolean _isValid = false;
 	
-	
+	// Loads given data file and stores content into a string array. Each
+	// line in the file corresponds to an entry in an array. Each entry is
+	// split by the '\t' (tab) character and stored again as string array.
 	public void load(String fileName) {
 		reset();
 		
@@ -47,6 +50,8 @@ public class DataFile {
 	    Logger.log("End reading data file");
 	}
 	
+	// Writes content of string array to specified file. Each entry in the array
+	// creates a new line in the file.
 	public void write(String fileName) {
 		Path dataFilePathOut = Paths.get(System.getProperty("user.dir"), fileName);
 		Charset charset = Charset.forName("US-ASCII");
@@ -78,6 +83,7 @@ public class DataFile {
 
 	}
 	
+	// Processes content of data array according the parameters given at command line.
 	public void processData() {	
 		for (int i = 0; i < _dataArray.size(); i++) {
 			
@@ -106,10 +112,6 @@ public class DataFile {
 	
 	public boolean isValid() {
 		return _isValid;
-	}
-	
-	public ArrayList<String[]> getData() {
-		return _dataArray;
 	}
 	
 	public void reset() {
